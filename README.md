@@ -19,7 +19,7 @@ This project applies Bayesian Optimization (BO) to identify nanoparticle reinfor
 
 ## Data Source
 
-Compound performance data was generated using **ViscoNet**, a lightweight neural network surrogate model for predicting the viscoelastic response of polymer nanocomposites (Lin et al., *Journal of the Mechanics and Physics of Solids*, 2024). ViscoNet takes microstructure, FEA configuration, and material property inputs and predicts mechanical outputs without running a full Abaqus/Simulia FEA simulation. The model was hosted at `http://abaqus.oit.duke.edu:8000/` (accessible on the Duke wired network, DukeBlue WiFi, or Duke VPN), with jobs submitted via Duke NetID. All outputs were copied directly into the notebook. No external data files are required. The notebook is fully self-contained.
+Compound performance data was generated using **ViscoNet**, a lightweight neural network surrogate model for predicting the viscoelastic response of polymer nanocomposites (Lin et al., *Journal of the Mechanics and Physics of Solids*, 2024). ViscoNet takes microstructure, FEA configuration, and material property inputs and predicts mechanical outputs without running a full Abaqus/Simulia FEA simulation. All outputs were copied directly into the notebook. No external data files are required. The notebook is fully self-contained.
 
 ---
 
