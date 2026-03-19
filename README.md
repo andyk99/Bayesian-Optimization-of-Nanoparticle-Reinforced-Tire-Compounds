@@ -1,4 +1,4 @@
-# Bayesian Optimization of Nanoparticle Reinforced Tire Compounds for Enhanced Durability and Efficiency
+# FEA-Driven Bayesian Optimization of Nanoparticle Reinforced Tire Compounds for Enhanced Durability and Efficiency
 
 **Author:** Andy Kapoor
 
