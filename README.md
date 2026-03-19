@@ -19,13 +19,13 @@ This project applies Bayesian Optimization (BO) to identify nanoparticle reinfor
 
 ## Data Source
 
-Compound performance data was generated using a nanocomposite tire simulator hosted at `http://abaqus.oit.duke.edu:8000/` (accessible on the Duke wired network, DukeBlue WiFi, or Duke VPN). Jobs were submitted via Duke NetID. All simulator outputs were copied directly into the notebook. No external data files are required. The notebook is fully self-contained.
+Compound performance data was generated using **ViscoNet**, a lightweight neural network surrogate model for predicting the viscoelastic response of polymer nanocomposites (Lin et al., *Journal of the Mechanics and Physics of Solids*, 2024). ViscoNet takes microstructure, FEA configuration, and material property inputs and predicts mechanical outputs without running a full Abaqus/Simulia FEA simulation. The model was hosted at `http://abaqus.oit.duke.edu:8000/` (accessible on the Duke wired network, DukeBlue WiFi, or Duke VPN), with jobs submitted via Duke NetID. All outputs were copied directly into the notebook. No external data files are required. The notebook is fully self-contained.
 
 ---
 
 ## Problem
 
-Nanoparticle reinforced tire compound development involves balancing competing objectives: durability, grip, rolling resistance, and cost. The reinforcing nanoparticle fillers (e.g. carbon black) and processing conditions interact in complex, nonlinear ways that make manual tuning inefficient. This project explores whether a data-efficient sequential optimization strategy can converge on high-performing formulations in a limited number of simulator evaluations, reducing the need for costly physical prototyping.
+Nanoparticle reinforced tire compound development involves balancing competing objectives: durability, grip, rolling resistance, and cost. The reinforcing nanoparticle fillers (e.g. carbon black) and processing conditions interact in complex, nonlinear ways that make manual tuning inefficient. This project explores whether a data-efficient sequential optimization strategy can converge on high-performing formulations in a limited number of ViscoNet evaluations, reducing the need for costly physical prototyping or full FEA simulations.
 
 ---
 
@@ -35,10 +35,10 @@ Nanoparticle reinforced tire compound development involves balancing competing o
 |---|---|---|
 | `vulc_time` | Vulcanization time (s) | 300 - 1000 |
 | `vulc_temp` | Vulcanization temperature (K) | 403 - 453 |
-| `sulph_MP` | Sulfur crosslinker content | 1 - 10 |
-| `carbB_MP` | Carbon black nanoparticle filler content | 1 - 35 |
-| `mixer_set` | Mixing intensity | 1 - 11 |
-| `carbB_grade` | Rubber grade | 1 - 100 |
+| `sulph_MP` | Sulfur mass percent | 1 - 10% |
+| `carbB_MP` | Carbon black filler percent | 1 - 35% |
+| `mixer_set` | Mixer setting | 1 - 11 |
+| `carbB_grade` | Carbon black filler quality | 0 - 100 |
 
 ## Outputs Tracked
 
@@ -63,7 +63,7 @@ Nanoparticle reinforced tire compound development involves balancing competing o
 - **Optimization 1:** Minimize abrasion. 20 sequential iterations starting from 5 initialization points.
 - **Optimization 2:** Minimize rolling resistance. 20 sequential iterations starting from the same 5 initialization points.
 
-Each iteration: fit GP → score candidates via EI → select next point → submit to simulator → copy result into notebook → append → repeat.
+Each iteration: fit GP → score candidates via EI → select next point → submit to ViscoNet → copy result into notebook → append → repeat.
 
 ### Dimensionality Reduction and Visualization
 The 6-dimensional parameter space was projected into 3D using three complementary techniques to visualize how BO explored the space and where the best formulations were found:
@@ -102,9 +102,15 @@ pip install numpy matplotlib scipy scikit-learn umap-learn
 
 ---
 
+## References
+
+Lin, A. et al. (2024) ViscoNet: a lightweight FEA surrogate model for polymer nanocomposites viscoelastic response prediction. *Journal of the Mechanics and Physics of Solids*, p. 105915. https://doi.org/10.1016/j.jmps.2024.105915
+
+---
+
 ## Limitations & Future Work
 
-- Objective functions are simulated. Experimental validation would be needed for real-world deployment.
+- Objective functions are simulated via ViscoNet. Experimental validation would be needed for real-world deployment.
 - Single-objective optimization runs were conducted separately. A true multi-objective Pareto front (e.g. balancing abrasion vs. rolling resistance vs. grip) would be a natural extension.
 - Convergence warnings from GP kernel bounds suggest hyperparameter tuning may improve surrogate model quality.
-- Future work: multi-objective BO (e.g. using NSGA-II or qNEHVI), transfer learning across compound families, integration with physical tire models.
+- Future work: multi-objective BO (e.g. using NSGA-II or qNEHVI), transfer learning across compound families, integration with full FEA simulations.
